@@ -1,7 +1,7 @@
-import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Header } from "../components/Header";
+import { Button, Input, PasswordInput } from "../components/ui";
 import { useAuth } from "../hooks/useAuth";
 
 export function Login() {
@@ -12,7 +12,6 @@ export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
     const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/dashboard";
@@ -48,66 +47,33 @@ export function Login() {
                         <div className="w-full max-w-95 mx-auto">
                             <div className="mb-7">
                                 <h1 className="text-3xl font-bold tracking-tight text-black">Entrar</h1>
-                                <p className="text-sm text-neutral-500 mt-2">Olá, que bom ter você de volta.</p>
+                                <p className="text-sm text-neutral-500 mt-2">Olá, que bom ter você de volta 👋</p>
                             </div>
 
                             <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-                                <div>
-                                    <label
-                                        htmlFor="email"
-                                        className="block text-xs font-semibold text-neutral-800 mb-2"
-                                    >
-                                        E-mail
-                                    </label>
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        inputMode="email"
-                                        autoComplete="username"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="ex.: joao@email.com"
-                                        disabled={isLoading}
-                                        className="w-full h-11 px-3.5 bg-white border border-neutral-300 rounded-lg text-sm text-black placeholder:text-neutral-400 transition-colors focus:outline-none focus:border-black focus:ring-1 focus:ring-black disabled:opacity-50"
-                                    />
-                                </div>
+                                <Input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    label="E-mail"
+                                    inputMode="email"
+                                    autoComplete="username"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="ex.: joao@email.com"
+                                    disabled={isLoading}
+                                />
 
-                                <div>
-                                    <label
-                                        htmlFor="password"
-                                        className="block text-xs font-semibold text-neutral-800 mb-2"
-                                    >
-                                        Senha
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            id="password"
-                                            name="password"
-                                            type={showPassword ? "text" : "password"}
-                                            autoComplete="current-password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            placeholder="Digite sua senha"
-                                            disabled={isLoading}
-                                            className="w-full h-11 pl-3.5 pr-11 bg-white border border-neutral-300 rounded-lg text-sm text-black placeholder:text-neutral-400 transition-colors focus:outline-none focus:border-black focus:ring-1 focus:ring-black disabled:opacity-50"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowPassword((prev) => !prev)}
-                                            disabled={isLoading}
-                                            aria-label={showPassword ? "Ocultar senha" : "Ver senha"}
-                                            aria-pressed={showPassword}
-                                            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 text-neutral-400 hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-black rounded transition-colors cursor-pointer"
-                                        >
-                                            {showPassword ? (
-                                                <EyeOff className="w-4 h-4" aria-hidden="true" />
-                                            ) : (
-                                                <Eye className="w-4 h-4" aria-hidden="true" />
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
+                                <PasswordInput
+                                    id="password"
+                                    name="password"
+                                    label="Senha"
+                                    autoComplete="current-password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Digite sua senha"
+                                    disabled={isLoading}
+                                />
 
                                 <div className="flex items-center justify-between py-1">
                                     <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -130,20 +96,9 @@ export function Login() {
                                     </button>
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className="w-full h-11 mt-3 bg-black hover:bg-neutral-800 active:bg-neutral-900 text-white font-medium text-sm rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                                            <span>Entrando...</span>
-                                        </>
-                                    ) : (
-                                        <span>Entrar</span>
-                                    )}
-                                </button>
+                                <Button type="submit" isLoading={isLoading} className="w-full mt-3">
+                                    Entrar
+                                </Button>
                             </form>
 
                             <div className="mt-8 pt-6 border-t border-neutral-100 text-center text-xs text-neutral-500">
@@ -163,6 +118,7 @@ export function Login() {
                             <p className="text-3xl font-bold tracking-tight text-white leading-snug">
                                 Domine novas habilidades com foco, ritmo e clareza.
                             </p>
+
                             <p className="text-sm text-neutral-400 leading-relaxed font-normal">
                                 Uma experiência desenhada para quem valoriza simplicidade, eficiência e aprendizado
                                 contínuo.

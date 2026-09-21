@@ -1,6 +1,7 @@
 import { Bell, LogOut } from "lucide-react";
 import { Link, NavLink } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import { UserAvatar } from "./ui";
 
 export interface HeaderProps {
     loggedIn?: boolean;
@@ -70,26 +71,7 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
                         <div className="h-5 w-px bg-neutral-200" aria-hidden="true" />
 
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full overflow-hidden bg-neutral-100 ring-1 ring-neutral-200 shrink-0">
-                                {user?.avatar ? (
-                                    <img
-                                        src={user.avatar}
-                                        alt={user.name}
-                                        className="w-full h-full object-cover grayscale"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center font-medium text-xs text-neutral-700 bg-neutral-100">
-                                        {user?.name
-                                            ? user.name
-                                                  .split(" ")
-                                                  .map((n) => n[0])
-                                                  .join("")
-                                                  .toUpperCase()
-                                                  .slice(0, 2)
-                                            : "U"}
-                                    </div>
-                                )}
-                            </div>
+                            <UserAvatar name={user?.name} src={user?.avatar} size="sm" />
 
                             <span className="hidden sm:inline font-medium text-sm text-neutral-900">
                                 {user?.name || "Usuário"}
