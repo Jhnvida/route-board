@@ -1,6 +1,7 @@
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { Header } from "../components/Header";
 import { useAuth } from "../hooks/useAuth";
 
 export function Login() {
@@ -38,124 +39,138 @@ export function Login() {
     const isLoading = submitting || authLoading;
 
     return (
-        <main className="min-h-screen w-full flex items-center justify-center bg-[#F8F9FA] px-4 py-8 sm:px-6 lg:px-8">
-            <div className="w-full max-w-[440px] bg-white rounded-2xl border border-neutral-200/80 shadow-xl shadow-neutral-200/40 p-8 sm:p-10 flex flex-col gap-8 transition-all">
-                <div className="pb-5 border-b border-neutral-100">
-                    <span className="font-extrabold text-xl tracking-tight text-neutral-900">Route Board</span>
-                </div>
+        <div className="min-h-screen flex flex-col bg-[#FAFAFA]">
+            <Header loggedIn={false} />
 
-                <div className="flex flex-col">
-                    <div className="mb-6">
-                        <h1 className="text-2xl font-bold tracking-tight text-neutral-900">Entrar</h1>
-                        <p className="text-sm text-neutral-500 mt-2">Olá, que bom ter você de volta.</p>
-                    </div>
+            <main className="flex-1 flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+                <div className="w-full max-w-300 min-h-150 bg-white rounded-2xl border border-neutral-200 overflow-hidden grid grid-cols-1 lg:grid-cols-2 shadow-xs transition-all">
+                    <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
+                        <div className="w-full max-w-95 mx-auto">
+                            <div className="mb-7">
+                                <h1 className="text-3xl font-bold tracking-tight text-black">Entrar</h1>
+                                <p className="text-sm text-neutral-500 mt-2">Olá, que bom ter você de volta.</p>
+                            </div>
 
-                    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-                        <div>
-                            <label htmlFor="email" className="block text-xs font-semibold text-neutral-700 mb-2">
-                                E-mail
-                            </label>
+                            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+                                <div>
+                                    <label
+                                        htmlFor="email"
+                                        className="block text-xs font-semibold text-neutral-800 mb-2"
+                                    >
+                                        E-mail
+                                    </label>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        inputMode="email"
+                                        autoComplete="username"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="ex.: joao@email.com"
+                                        disabled={isLoading}
+                                        className="w-full h-11 px-3.5 bg-white border border-neutral-300 rounded-lg text-sm text-black placeholder:text-neutral-400 transition-colors focus:outline-none focus:border-black focus:ring-1 focus:ring-black disabled:opacity-50"
+                                    />
+                                </div>
 
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                inputMode="email"
-                                autoComplete="username"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="ex.: joao@email.com"
-                                disabled={isLoading}
-                                className="w-full h-11 px-4 bg-white border border-neutral-200 rounded-xl text-sm text-neutral-900 placeholder:text-neutral-400 transition-colors focus:outline-none focus:border-indigo-600 focus:ring-3 focus:ring-indigo-100 disabled:opacity-60"
-                            />
-                        </div>
+                                <div>
+                                    <label
+                                        htmlFor="password"
+                                        className="block text-xs font-semibold text-neutral-800 mb-2"
+                                    >
+                                        Senha
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            id="password"
+                                            name="password"
+                                            type={showPassword ? "text" : "password"}
+                                            autoComplete="current-password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Digite sua senha"
+                                            disabled={isLoading}
+                                            className="w-full h-11 pl-3.5 pr-11 bg-white border border-neutral-300 rounded-lg text-sm text-black placeholder:text-neutral-400 transition-colors focus:outline-none focus:border-black focus:ring-1 focus:ring-black disabled:opacity-50"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword((prev) => !prev)}
+                                            disabled={isLoading}
+                                            aria-label={showPassword ? "Ocultar senha" : "Ver senha"}
+                                            aria-pressed={showPassword}
+                                            className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 text-neutral-400 hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-black rounded transition-colors cursor-pointer"
+                                        >
+                                            {showPassword ? (
+                                                <EyeOff className="w-4 h-4" aria-hidden="true" />
+                                            ) : (
+                                                <Eye className="w-4 h-4" aria-hidden="true" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
 
-                        <div>
-                            <label htmlFor="password" className="block text-xs font-semibold text-neutral-700 mb-2">
-                                Senha
-                            </label>
+                                <div className="flex items-center justify-between py-1">
+                                    <label className="flex items-center gap-2 cursor-pointer select-none">
+                                        <input
+                                            type="checkbox"
+                                            id="rememberMe"
+                                            checked={rememberMe}
+                                            onChange={(e) => setRememberMe(e.target.checked)}
+                                            disabled={isLoading}
+                                            className="w-4 h-4 rounded border-neutral-300 text-black focus:ring-black focus:ring-offset-0 cursor-pointer accent-black"
+                                        />
+                                        <span className="text-xs text-neutral-600 font-medium">Lembrar de mim</span>
+                                    </label>
 
-                            <div className="relative">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    autoComplete="current-password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Digite sua senha"
-                                    disabled={isLoading}
-                                    className="w-full h-11 pl-4 pr-11 bg-white border border-neutral-200 rounded-xl text-sm text-neutral-900 placeholder:text-neutral-400 transition-colors focus:outline-none focus:border-indigo-600 focus:ring-3 focus:ring-indigo-100 disabled:opacity-60"
-                                />
+                                    <button
+                                        type="button"
+                                        className="text-xs font-medium text-neutral-600 hover:text-black hover:underline underline-offset-4 focus:outline-none focus-visible:ring-1 focus-visible:ring-black rounded cursor-pointer transition-colors"
+                                    >
+                                        Esqueci minha senha
+                                    </button>
+                                </div>
 
                                 <button
-                                    type="button"
-                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    type="submit"
                                     disabled={isLoading}
-                                    aria-label={showPassword ? "Ocultar senha" : "Ver senha"}
-                                    aria-pressed={showPassword}
-                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 text-neutral-400 hover:text-neutral-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg transition-colors cursor-pointer"
+                                    className="w-full h-11 mt-3 bg-black hover:bg-neutral-800 active:bg-neutral-900 text-white font-medium text-sm rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                                 >
-                                    {showPassword ? (
-                                        <EyeOff className="w-4 h-4" aria-hidden="true" />
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                                            <span>Entrando...</span>
+                                        </>
                                     ) : (
-                                        <Eye className="w-4 h-4" aria-hidden="true" />
+                                        <span>Entrar</span>
                                     )}
+                                </button>
+                            </form>
+
+                            <div className="mt-8 pt-6 border-t border-neutral-100 text-center text-xs text-neutral-500">
+                                <span>Ainda não tem uma conta? </span>
+                                <button
+                                    type="button"
+                                    className="font-semibold text-black hover:underline underline-offset-4 focus:outline-none focus-visible:ring-1 focus-visible:ring-black rounded cursor-pointer ml-1"
+                                >
+                                    Criar uma conta
                                 </button>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="flex items-center justify-between py-1">
-                            <label className="flex items-center gap-2 cursor-pointer select-none">
-                                <input
-                                    type="checkbox"
-                                    id="rememberMe"
-                                    checked={rememberMe}
-                                    onChange={(e) => setRememberMe(e.target.checked)}
-                                    disabled={isLoading}
-                                    className="w-4 h-4 rounded border-neutral-300 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-0 cursor-pointer accent-indigo-600"
-                                />
-                                <span className="text-xs text-neutral-600 font-medium">Lembrar de mim</span>
-                            </label>
-
-                            <button
-                                type="button"
-                                onClick={() => alert("Recuperação de senha preparada para implementação futura.")}
-                                className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded cursor-pointer"
-                            >
-                                Esqueci minha senha
-                            </button>
+                    <div className="hidden lg:flex flex-col justify-center p-12 lg:p-16 bg-black text-white relative">
+                        <div className="space-y-4 max-w-md">
+                            <p className="text-3xl font-bold tracking-tight text-white leading-snug">
+                                Domine novas habilidades com foco, ritmo e clareza.
+                            </p>
+                            <p className="text-sm text-neutral-400 leading-relaxed font-normal">
+                                Uma experiência desenhada para quem valoriza simplicidade, eficiência e aprendizado
+                                contínuo.
+                            </p>
                         </div>
-
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full h-11 mt-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold text-sm rounded-xl shadow-xs transition-colors focus:outline-none focus-visible:ring-3 focus-visible:ring-indigo-300 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
-                        >
-                            {isLoading ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                                    <span>Entrando...</span>
-                                </>
-                            ) : (
-                                <span>Entrar</span>
-                            )}
-                        </button>
-                    </form>
-
-                    <div className="mt-8 pt-5 border-t border-neutral-100 text-center text-xs">
-                        <span className="text-neutral-500">Ainda não tem uma conta? </span>
-
-                        <button
-                            type="button"
-                            onClick={() => alert("Fluxo de cadastro preparado para implementação futura.")}
-                            className="font-semibold text-indigo-600 hover:text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded cursor-pointer ml-1"
-                        >
-                            Criar uma conta
-                        </button>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </div>
     );
 }

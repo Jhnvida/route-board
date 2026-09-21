@@ -20,14 +20,16 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
     ];
 
     return (
-        <header
-            className={`w-full bg-white transition-all ${showBorder ? "border-b border-neutral-100" : ""} ${className}`}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                <div className="flex items-center gap-8">
+        <header className={`w-full sticky top-4 z-50 px-4 sm:px-6 lg:px-8 pt-4 flex justify-center ${className}`}>
+            <div
+                className={`w-full max-w-300 h-16 bg-white rounded-xl px-4 sm:px-6 flex items-center justify-between transition-all ${
+                    showBorder ? "border border-neutral-200" : ""
+                }`}
+            >
+                <div className="flex items-center gap-10">
                     <Link
                         to={isUserLoggedIn ? "/dashboard" : "/login"}
-                        className="font-extrabold text-xl tracking-tight text-neutral-900 hover:text-indigo-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg p-1"
+                        className="font-bold text-lg tracking-tight text-black hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-1 focus-visible:ring-black rounded p-1"
                         aria-label="Route Board - Início"
                     >
                         Route Board
@@ -40,10 +42,10 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
                                     key={item.to}
                                     to={item.to}
                                     className={({ isActive }) =>
-                                        `px-3.5 py-1.5 rounded-full text-sm transition-colors ${
+                                        `px-3 py-1.5 rounded-md text-sm transition-colors ${
                                             isActive
-                                                ? "font-semibold text-neutral-900 bg-neutral-100"
-                                                : "font-medium text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50"
+                                                ? "font-semibold text-black bg-neutral-100"
+                                                : "font-medium text-neutral-600 hover:text-black hover:bg-neutral-50"
                                         }`
                                     }
                                 >
@@ -55,24 +57,28 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
                 </div>
 
                 {isUserLoggedIn && (
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
                         <button
                             type="button"
-                            className="p-2 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                            className="p-2 text-neutral-600 hover:text-black hover:bg-neutral-100 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-black cursor-pointer"
                             aria-label="Notificações"
                             title="Notificações"
                         >
-                            <Bell className="w-5 h-5" aria-hidden="true" />
+                            <Bell className="w-4 h-4" aria-hidden="true" />
                         </button>
 
-                        <div className="h-6 w-px bg-neutral-200" aria-hidden="true" />
+                        <div className="h-5 w-px bg-neutral-200" aria-hidden="true" />
 
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full overflow-hidden bg-neutral-200 ring-2 ring-neutral-100 shrink-0">
+                            <div className="w-8 h-8 rounded-full overflow-hidden bg-neutral-100 ring-1 ring-neutral-200 shrink-0">
                                 {user?.avatar ? (
-                                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                                    <img
+                                        src={user.avatar}
+                                        alt={user.name}
+                                        className="w-full h-full object-cover grayscale"
+                                    />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center font-semibold text-xs text-neutral-700 bg-neutral-300">
+                                    <div className="w-full h-full flex items-center justify-center font-medium text-xs text-neutral-700 bg-neutral-100">
                                         {user?.name
                                             ? user.name
                                                   .split(" ")
@@ -85,7 +91,7 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
                                 )}
                             </div>
 
-                            <span className="hidden sm:inline font-semibold text-sm text-neutral-800">
+                            <span className="hidden sm:inline font-medium text-sm text-neutral-900">
                                 {user?.name || "Usuário"}
                             </span>
                         </div>
@@ -93,7 +99,7 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
                         <button
                             type="button"
                             onClick={() => logout()}
-                            className="p-2 text-neutral-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                            className="p-2 text-neutral-500 hover:text-black hover:bg-neutral-100 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-black cursor-pointer"
                             aria-label="Sair da conta"
                             title="Sair"
                         >

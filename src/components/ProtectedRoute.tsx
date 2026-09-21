@@ -8,9 +8,9 @@ export function ProtectedRoute() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA]">
+            <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA]">
                 <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" aria-hidden="true" />
+                    <Loader2 className="w-6 h-6 text-black animate-spin" aria-hidden="true" />
                     <p className="text-sm text-neutral-500 font-medium">Carregando sessão...</p>
                 </div>
             </div>
