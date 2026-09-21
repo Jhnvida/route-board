@@ -13,18 +13,27 @@ export interface User {
     avatar?: string;
 }
 
+export interface CourseTheme {
+    bg: string;
+    shadow: string;
+    divider: string;
+    iconColor: string;
+}
+
 export interface Course {
     id: string;
     title: string;
-    duration: string;
-    price: number | string;
     period: string;
-    instructor: string;
-    workload: string;
-    format: string;
+    price: number | string;
+    icon?: string;
+    duration?: string;
+    instructor?: string;
+    workload?: string;
+    format?: string;
     description?: string;
     category?: string;
     progress?: number;
+    theme?: CourseTheme;
 }
 
 export interface CourseProgress {
