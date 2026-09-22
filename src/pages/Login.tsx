@@ -11,8 +11,7 @@ export function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
+    const [rememberMe, setRememberMe] = useState(true);
 
     const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/dashboard";
 
@@ -26,20 +25,19 @@ export function Login() {
         e.preventDefault();
 
         try {
-            setSubmitting(true);
             const userEmail = email.trim() || "john.doe@routeboard.dev";
-            await login(userEmail, password);
+            await login(userEmail, password, rememberMe);
             navigate(from, { replace: true });
-        } catch {
-            setSubmitting(false);
+        } catch (error) {
+            console.error("Erro ao realizar login:", error);
         }
     };
 
-    const isLoading = submitting || authLoading;
+    const isLoading = authLoading;
 
     return (
         <div className="min-h-screen flex flex-col bg-[#FAFAFA]">
-            <Header loggedIn={false} />
+            <Header />
 
             <main className="flex-1 flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
                 <div className="w-full max-w-300 min-h-150 bg-white rounded-2xl border border-neutral-200 overflow-hidden grid grid-cols-1 lg:grid-cols-2 shadow-xs transition-all">

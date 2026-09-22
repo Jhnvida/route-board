@@ -2,7 +2,7 @@ export interface AuthContextData {
     user: User | null;
     isAuthenticated: boolean;
     loading: boolean;
-    login: (email: string, password: string) => Promise<void>;
+    login: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
     logout: () => Promise<void>;
 }
 
@@ -20,31 +20,33 @@ export interface CourseTheme {
     iconColor: string;
 }
 
+export interface CourseProgress {
+    completedHours: number;
+    totalHours: number;
+    percentage: number;
+}
+
+export type CourseIconName = "tv" | "image" | "code" | "message";
+
 export interface Course {
     id: string;
     title: string;
     period: string;
-    price: number | string;
-    icon?: string;
+    price: number;
+    icon?: CourseIconName;
     duration?: string;
     instructor?: string;
     workload?: string;
     format?: string;
     description?: string;
     category?: string;
-    progress?: number;
+    progress?: CourseProgress;
     theme?: CourseTheme;
-}
-
-export interface CourseProgress {
-    courseId: string;
-    completedHours: number;
-    totalHours: number;
-    percentage: number;
 }
 
 export interface TimetableItem {
     id: string;
+    courseId: string;
     time: string;
     subject: string;
     instructor: string;
@@ -52,4 +54,9 @@ export interface TimetableItem {
     lessonNumber: number;
     duration: string;
     date: string;
+}
+
+export interface TimetableGroup {
+    date: string;
+    items: TimetableItem[];
 }

@@ -4,21 +4,19 @@ import { useAuth } from "../hooks/useAuth";
 import { UserAvatar } from "./ui";
 
 export interface HeaderProps {
-    loggedIn?: boolean;
     className?: string;
     showBorder?: boolean;
 }
 
-export function Header({ loggedIn, className = "", showBorder = true }: HeaderProps) {
-    const { user, isAuthenticated, logout } = useAuth();
-    const isUserLoggedIn = loggedIn !== undefined ? loggedIn : isAuthenticated;
+const NAV_ITEMS = [
+    { label: "Painel", to: "/dashboard" },
+    { label: "Descobrir", to: "/courses" },
+    { label: "Calendário", to: "/calendar" },
+    { label: "Comunidade", to: "/community" },
+];
 
-    const navItems = [
-        { label: "Painel", to: "/dashboard" },
-        { label: "Descobrir", to: "/courses" },
-        { label: "Calendário", to: "/calendar" },
-        { label: "Comunidade", to: "/community" },
-    ];
+export function Header({ className = "", showBorder = true }: HeaderProps) {
+    const { user, isAuthenticated, logout } = useAuth();
 
     return (
         <header className={`w-full sticky top-4 z-50 px-4 sm:px-6 lg:px-8 pt-4 flex justify-center ${className}`}>
@@ -29,16 +27,16 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
             >
                 <div className="flex items-center gap-10">
                     <Link
-                        to={isUserLoggedIn ? "/dashboard" : "/login"}
+                        to={isAuthenticated ? "/dashboard" : "/login"}
                         className="font-bold text-lg tracking-tight text-black hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-1 focus-visible:ring-black rounded p-1"
                         aria-label="Route Board - Início"
                     >
                         Route Board
                     </Link>
 
-                    {isUserLoggedIn && (
+                    {isAuthenticated && (
                         <nav className="hidden md:flex items-center gap-1" aria-label="Navegação principal">
-                            {navItems.map((item) => (
+                            {NAV_ITEMS.map((item) => (
                                 <NavLink
                                     key={item.to}
                                     to={item.to}
@@ -57,7 +55,7 @@ export function Header({ loggedIn, className = "", showBorder = true }: HeaderPr
                     )}
                 </div>
 
-                {isUserLoggedIn && (
+                {isAuthenticated && (
                     <div className="flex items-center gap-3 sm:gap-4">
                         <button
                             type="button"

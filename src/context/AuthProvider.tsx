@@ -10,7 +10,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const [user, setUser] = useState<User | null>(() => {
         try {
-            const storedSession = localStorage.getItem(STORAGE_KEY);
+            const storedSession = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
 
             if (storedSession) {
                 return JSON.parse(storedSession) as User;
@@ -18,12 +18,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         } catch (error) {
             console.error("Falha ao recuperar sessão persistida:", error);
             localStorage.removeItem(STORAGE_KEY);
+            sessionStorage.removeItem(STORAGE_KEY);
         }
 
         return null;
     });
 
-    const login = async (email: string, _password: string) => {
+    const login = async (email: string, _password: string, rememberMe = true) => {
         setLoading(true);
 
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -36,7 +37,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         };
 
         setUser(mockUser);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(mockUser));
+        const storage = rememberMe ? localStorage : sessionStorage;
+        storage.setItem(STORAGE_KEY, JSON.stringify(mockUser));
         setLoading(false);
     };
 
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         setUser(null);
         localStorage.removeItem(STORAGE_KEY);
+        sessionStorage.removeItem(STORAGE_KEY);
         setLoading(false);
     };
 

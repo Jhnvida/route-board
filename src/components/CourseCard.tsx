@@ -1,38 +1,42 @@
-import { CodeXml, Image, MessageSquareText, Tv } from "lucide-react";
+import { Link } from "react-router";
+import { COURSE_ICONS, DEFAULT_COURSE_THEME } from "../data/courses";
 import type { Course } from "../types";
-
-const icons = {
-    tv: Tv,
-    image: Image,
-    code: CodeXml,
-    message: MessageSquareText,
-};
+import { formatCurrency } from "../utils";
 
 interface CourseCardProps {
     course: Course;
 }
 
-export function CourseCard({ course }: CourseCardProps) {
-    const Icon = course.icon ? icons[course.icon as keyof typeof icons] : null;
+function getShadowColor(color: string, alpha = 0.7): string {
+    if (color.startsWith("#")) {
+        const cleanHex = color.replace("#", "");
+        if (cleanHex.length === 6) {
+            const r = parseInt(cleanHex.substring(0, 2), 16);
+            const g = parseInt(cleanHex.substring(2, 4), 16);
+            const b = parseInt(cleanHex.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+    }
+    return color;
+}
 
-    const theme = course.theme ?? {
-        bg: "#ECE6FD",
-        shadow: "#D6C8F9",
-        divider: "#D6C8F9",
-        iconColor: "#3B1E82",
-    };
+export function CourseCard({ course }: CourseCardProps) {
+    const Icon = course.icon ? COURSE_ICONS[course.icon] : null;
+    const theme = course.theme ?? DEFAULT_COURSE_THEME;
+    const shadowColor = getShadowColor(theme.shadow, 0.7);
 
     return (
-        <div className="relative group flex flex-col">
-            <div
-                className="absolute inset-0 translate-x-0.5 translate-y-1.5 rounded-2xl transition-transform duration-200"
-                style={{ backgroundColor: theme.shadow }}
-                aria-hidden="true"
-            />
-
+        <Link
+            to="/courses"
+            className="group flex flex-col flex-1 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 no-underline text-inherit"
+            aria-label={`Ver curso ${course.title}`}
+        >
             <article
-                className="relative rounded-2xl p-6 sm:p-7 flex flex-col justify-between flex-1 transition-transform duration-200 group-hover:-translate-y-0.5"
-                style={{ backgroundColor: theme.bg }}
+                className="rounded-2xl p-6 sm:p-7 flex flex-col justify-between flex-1 transition-all duration-200 group-hover:-translate-y-0.5 cursor-pointer h-full"
+                style={{
+                    backgroundColor: theme.bg,
+                    boxShadow: `6px 6px 0px 0px ${shadowColor}`,
+                }}
             >
                 <div>
                     {Icon && (
@@ -62,11 +66,11 @@ export function CourseCard({ course }: CourseCardProps) {
                     <div className="flex items-baseline justify-between">
                         <span className="text-xs text-neutral-600 font-normal">Preço</span>
                         <span className="font-bold text-base sm:text-lg text-neutral-900 tracking-tight">
-                            {course.price}
+                            {formatCurrency(course.price)}
                         </span>
                     </div>
                 </div>
             </article>
-        </div>
+        </Link>
     );
 }
