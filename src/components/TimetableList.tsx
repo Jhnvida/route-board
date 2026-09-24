@@ -1,4 +1,5 @@
 import { Clock, FileText, SlidersHorizontal } from "lucide-react";
+import { Link } from "react-router";
 import { COURSE_ICONS, DEFAULT_COURSE_THEME, TIMETABLE_GROUPS } from "../data/courses";
 import type { Course, TimetableGroup } from "../types";
 
@@ -16,7 +17,7 @@ export function TimetableList({ groups = TIMETABLE_GROUPS, courses }: TimetableL
                 <h2 className="text-2xl font-extrabold text-neutral-900 tracking-tight">Grade de Horários</h2>
                 <button
                     type="button"
-                    className="border border-neutral-200 rounded-lg p-1.5 text-neutral-600 hover:bg-neutral-50 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-black"
+                    className="border border-neutral-200 rounded-lg p-2 text-neutral-600 hover:bg-neutral-50 transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-black"
                     aria-label="Filtrar horários"
                     title="Filtrar horários"
                 >
@@ -52,16 +53,16 @@ export function TimetableList({ groups = TIMETABLE_GROUPS, courses }: TimetableL
                                                 className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                                                 style={{ backgroundColor: badgeBg }}
                                             >
-                                                <ItemIcon
-                                                    className={`w-4 h-4 ${badgeIconColor}`}
-                                                    aria-hidden="true"
-                                                />
+                                                <ItemIcon className={`w-4 h-4 ${badgeIconColor}`} aria-hidden="true" />
                                             </div>
 
                                             <div className="truncate">
-                                                <p className="font-bold text-neutral-900 truncate">
+                                                <Link
+                                                    to={`/courses/${item.courseId}`}
+                                                    className="font-bold text-neutral-900 truncate block hover:underline underline-offset-2"
+                                                >
                                                     {item.subject}
-                                                </p>
+                                                </Link>
                                                 <p className="text-xs text-neutral-400 truncate">
                                                     Instrutor: {item.instructor} •{" "}
                                                     <span className="text-neutral-500">{item.platform}</span>

@@ -5,7 +5,7 @@ import { Button, Input, PasswordInput } from "../components/ui";
 import { useAuth } from "../hooks/useAuth";
 
 export function Login() {
-    const { isAuthenticated, login, loading: authLoading } = useAuth();
+    const { isAuthenticated, login, loading: isLoading } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -32,8 +32,6 @@ export function Login() {
             console.error("Erro ao realizar login:", error);
         }
     };
-
-    const isLoading = authLoading;
 
     return (
         <div className="min-h-screen flex flex-col bg-[#FAFAFA]">

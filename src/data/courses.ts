@@ -24,6 +24,10 @@ export const COURSES: Course[] = [
         icon: "tv",
         instructor: "Paul Gorbachev",
         format: "Google Meet",
+        category: "Inteligência Artificial",
+        workload: "230 horas",
+        description:
+            "Aprenda os fundamentos e aplicações práticas de Machine Learning, abordando algoritmos supervisionados e não supervisionados, redes neurais e preparação de pipelines de dados.",
         theme: {
             bg: "#ECE6FD",
             shadow: "#D8CEF7",
@@ -44,6 +48,10 @@ export const COURSES: Course[] = [
         icon: "image",
         instructor: "Alex Rivera",
         format: "Google Meet",
+        category: "Design & UI/UX",
+        workload: "230 horas",
+        description:
+            "Domine os princípios do design de interfaces modernas, tipografia, teoria das cores, wireframing e prototipagem no Figma para criar produtos digitais intuitivos e centrados no usuário.",
         theme: {
             bg: "#FDE7B2",
             shadow: "#F7CE7C",
@@ -64,6 +72,10 @@ export const COURSES: Course[] = [
         icon: "code",
         instructor: "Paul Gorbachev",
         format: "Google Meet",
+        category: "Desenvolvimento Web",
+        workload: "230 horas",
+        description:
+            "Aprofunde-se na estruturação semântica da web, acessibilidade (a11y), SEO e boas práticas de arquitetura front-end com HTML5 moderno e integração com ecossistemas atuais.",
         theme: {
             bg: "#C9E6F9",
             shadow: "#99D0F1",
@@ -84,6 +96,10 @@ export const COURSES: Course[] = [
         icon: "message",
         instructor: "Sarah Jenkins",
         format: "Google Meet",
+        category: "Gestão & Liderança",
+        workload: "180 horas",
+        description:
+            "Desenvolva competências em metodologias ágeis (Scrum, Kanban), planejamento de entregas, liderança de times multifuncionais e acompanhamento de métricas de sucesso em projetos tech.",
         theme: {
             bg: "#D1EBCF",
             shadow: "#A6DAA0",

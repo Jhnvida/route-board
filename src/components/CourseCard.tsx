@@ -1,23 +1,10 @@
 import { Link } from "react-router";
 import { COURSE_ICONS, DEFAULT_COURSE_THEME } from "../data/courses";
 import type { Course } from "../types";
-import { formatCurrency } from "../utils";
+import { formatCurrency, getShadowColor } from "../utils";
 
 interface CourseCardProps {
     course: Course;
-}
-
-function getShadowColor(color: string, alpha = 0.7): string {
-    if (color.startsWith("#")) {
-        const cleanHex = color.replace("#", "");
-        if (cleanHex.length === 6) {
-            const r = parseInt(cleanHex.substring(0, 2), 16);
-            const g = parseInt(cleanHex.substring(2, 4), 16);
-            const b = parseInt(cleanHex.substring(4, 6), 16);
-            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-        }
-    }
-    return color;
 }
 
 export function CourseCard({ course }: CourseCardProps) {
@@ -27,7 +14,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
     return (
         <Link
-            to="/courses"
+            to={`/courses/${course.id}`}
             className="group flex flex-col flex-1 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 no-underline text-inherit"
             aria-label={`Ver curso ${course.title}`}
         >

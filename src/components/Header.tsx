@@ -59,7 +59,7 @@ export function Header({ className = "", showBorder = true }: HeaderProps) {
                     <div className="flex items-center gap-3 sm:gap-4">
                         <button
                             type="button"
-                            className="p-2 text-neutral-600 hover:text-black hover:bg-neutral-100 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-black cursor-pointer"
+                            className="p-2.5 text-neutral-600 hover:text-black hover:bg-neutral-100 rounded-lg transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-black cursor-pointer"
                             aria-label="Notificações"
                             title="Notificações"
                         >
@@ -69,7 +69,7 @@ export function Header({ className = "", showBorder = true }: HeaderProps) {
                         <div className="h-5 w-px bg-neutral-200" aria-hidden="true" />
 
                         <div className="flex items-center gap-3">
-                            <UserAvatar name={user?.name} src={user?.avatar} size="sm" />
+                            <UserAvatar name={user?.name} size="sm" />
 
                             <span className="hidden sm:inline font-medium text-sm text-neutral-900">
                                 {user?.name || "Usuário"}
@@ -79,7 +79,7 @@ export function Header({ className = "", showBorder = true }: HeaderProps) {
                         <button
                             type="button"
                             onClick={() => logout()}
-                            className="p-2 text-neutral-500 hover:text-black hover:bg-neutral-100 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-black cursor-pointer"
+                            className="p-2.5 text-neutral-500 hover:text-black hover:bg-neutral-100 rounded-lg transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-black cursor-pointer"
                             aria-label="Sair da conta"
                             title="Sair"
                         >

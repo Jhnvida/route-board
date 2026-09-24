@@ -16,7 +16,7 @@ export function NotFound() {
 
                 <Link
                     to="/dashboard"
-                    className="inline-flex items-center gap-2 bg-black hover:bg-neutral-800 text-white font-medium text-sm px-4 py-2 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                    className="inline-flex items-center justify-center gap-2 bg-black hover:bg-neutral-800 text-white font-semibold text-sm h-11 px-5 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black shadow-xs"
                 >
                     <ArrowLeft className="w-4 h-4" aria-hidden="true" />
                     <span>Voltar ao Início</span>

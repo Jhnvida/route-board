@@ -33,7 +33,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
             id: "user-1",
             name: "John Doe",
             email: email.trim(),
-            avatar: "https://placehold.co/32?text=JD",
         };
 
         setUser(mockUser);

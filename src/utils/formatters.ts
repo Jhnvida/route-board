@@ -39,3 +39,16 @@ export function formatHoursProgress(completed: number, total: number): string {
 export function formatPercentage(value: number): string {
     return `${Math.round(value)}%`;
 }
+
+export function getShadowColor(color: string, alpha = 0.7): string {
+    if (color.startsWith("#")) {
+        const cleanHex = color.replace("#", "");
+        if (cleanHex.length === 6) {
+            const r = parseInt(cleanHex.substring(0, 2), 16);
+            const g = parseInt(cleanHex.substring(2, 4), 16);
+            const b = parseInt(cleanHex.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+    }
+    return color;
+}

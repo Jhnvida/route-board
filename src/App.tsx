@@ -3,6 +3,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthProvider";
 import { RootLayout } from "./layouts/RootLayout";
 import { Dashboard } from "./pages/Dashboard";
+import { ItemDetails } from "./pages/ItemDetails";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { Placeholder } from "./pages/Placeholder";
@@ -18,6 +19,7 @@ export function App() {
                         <Route element={<RootLayout />}>
                             <Route path="/" element={<Navigate to="/dashboard" replace />} />
                             <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/courses/:id" element={<ItemDetails />} />
                             <Route
                                 path="/courses"
                                 element={
