@@ -33,7 +33,7 @@ Painel interativo e laboratório prático focado na exploração de padrões mod
 
 ## Visão Geral
 
-O **Route Board** foi desenvolvido com a finalidade de atuar como laboratório arquitetural para o **React Router 8**. Ele consolida boas práticas na construção de sistemas corporativos baseados em painéis de controle (*dashboards*), demonstrando na prática:
+O **Route Board** foi desenvolvido com a finalidade de atuar como laboratório arquitetural para o **React Router 8**. Ele consolida boas práticas na construção de sistemas corporativos baseados em painéis de controle (_dashboards_), demonstrando na prática:
 
 - Como estruturar fluxos de autenticação desacoplados com preservação de estado da rota original.
 - Como consumir parâmetros de URL dinâmicos (`/courses/:id`) mantendo resiliência contra IDs inexistentes.
@@ -57,6 +57,7 @@ O **Route Board** foi desenvolvido com a finalidade de atuar como laboratório a
 ## Tecnologias Utilizadas
 
 ### Frontend & Roteamento
+
 - **[React 19](https://react.dev/):** Biblioteca para interfaces com compilação pelo React Compiler.
 - **[React Router 8](https://reactrouter.com/):** Sistema declarativo e robusto de roteamento dinâmico.
 - **[TypeScript](https://www.typescriptlang.org/):** Tipagem estática fim a fim em todas as camadas da aplicação.
@@ -64,6 +65,7 @@ O **Route Board** foi desenvolvido com a finalidade de atuar como laboratório a
 - **[Lucide React](https://lucide.dev/):** Iconografia consistente para controles e navegação.
 
 ### Tooling & Build
+
 - **[Vite 8](https://vite.dev/):** Servidor de desenvolvimento ultrarrápido e empacotamento para produção.
 - **[pnpm](https://pnpm.io/):** Gerenciador de dependências eficiente e determinístico.
 - **[Oxlint](https://oxc.rs/):** Linter de alta performance focado na padronização e sanidade do código.
@@ -79,13 +81,15 @@ route-board/
 │   ├── components/         # Componentes visuais
 │   │   ├── ui/             # Primitivas de interface (Button, Input, UserAvatar)
 │   │   ├── CourseCard.tsx  # Cartão individual do catálogo
+│   │   ├── CourseProgressList.tsx # Lista de progresso dos cursos
 │   │   ├── Header.tsx      # Barra de navegação unificada
-│   │   └── ProtectedRoute.tsx # Guard de proteção de rotas
+│   │   ├── ProtectedRoute.tsx # Guard de proteção de rotas
+│   │   └── TimetableList.tsx  # Grade cronológica de horários
 │   ├── context/            # Contexto e provedor de autenticação (AuthContext)
 │   ├── data/               # Base de dados em memória simulada (courses.ts)
 │   ├── hooks/              # Hooks customizados da aplicação (useAuth.ts)
 │   ├── layouts/            # Componentes estruturais e layouts base (RootLayout.tsx)
-│   ├── pages/              # Telas da aplicação (Dashboard, ItemDetails, Login, NotFound)
+│   ├── pages/              # Telas da aplicação (Dashboard, ItemDetails, Login, NotFound, Placeholder)
 │   ├── styles/             # Folha de estilos globais com diretivas do Tailwind v4
 │   ├── types/              # Definições de interfaces do domínio
 │   ├── utils/              # Formatadores de moeda, porcentagem e datas
@@ -102,16 +106,16 @@ route-board/
 
 ## Mapa de Rotas
 
-| Rota | Tipo | Acesso | Componente | Descrição |
-|---|:---:|:---:|---|---|
-| `/login` | Estática | Público | `Login` | Autenticação com suporte a "Lembrar de mim". |
-| `/` | Redirecionamento | Privado | `<Navigate to="/dashboard" />` | Redirecionamento automático da raiz para o painel. |
-| `/dashboard` | Estática | Privado | `Dashboard` | Painel central com lista de cursos e horários. |
-| `/courses/:id` | Dinâmica | Privado | `ItemDetails` | Detalhes do curso lidos via `useParams`. |
-| `/courses` | Estática | Privado | `Placeholder` | Seção em desenvolvimento do catálogo geral. |
-| `/calendar` | Estática | Privado | `Placeholder` | Seção em desenvolvimento de calendário. |
-| `/community` | Estática | Privado | `Placeholder` | Seção em desenvolvimento da comunidade. |
-| `*` | Curinga | Público | `NotFound` | Tela amigável de erro 404 para rotas não mapeadas. |
+| Rota           |       Tipo       | Acesso  | Componente                     | Descrição                                          |
+| -------------- | :--------------: | :-----: | ------------------------------ | -------------------------------------------------- |
+| `/login`       |     Estática     | Público | `Login`                        | Autenticação com suporte a "Lembrar de mim".       |
+| `/`            | Redirecionamento | Privado | `<Navigate to="/dashboard" />` | Redirecionamento automático da raiz para o painel. |
+| `/dashboard`   |     Estática     | Privado | `Dashboard`                    | Painel central com lista de cursos e horários.     |
+| `/courses/:id` |     Dinâmica     | Privado | `ItemDetails`                  | Detalhes do curso lidos via `useParams`.           |
+| `/courses`     |     Estática     | Privado | `Placeholder`                  | Seção em desenvolvimento do catálogo geral.        |
+| `/calendar`    |     Estática     | Privado | `Placeholder`                  | Seção em desenvolvimento de calendário.            |
+| `/community`   |     Estática     | Privado | `Placeholder`                  | Seção em desenvolvimento da comunidade.            |
+| `*`            |     Curinga      | Público | `NotFound`                     | Tela amigável de erro 404 para rotas não mapeadas. |
 
 ---
 
@@ -137,20 +141,23 @@ Para executar o projeto localmente, certifique-se de possuir:
 ## Instalação e Execução
 
 1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/Jhnvida/route-board.git
-   cd route-board
-   ```
+
+    ```bash
+    git clone https://github.com/Jhnvida/route-board.git
+    cd route-board
+    ```
 
 2. **Instale as dependências:**
-   ```bash
-   pnpm install
-   ```
+
+    ```bash
+    pnpm install
+    ```
 
 3. **Inicie o servidor de desenvolvimento:**
-   ```bash
-   pnpm dev
-   ```
+
+    ```bash
+    pnpm dev
+    ```
 
 4. **Acesse no navegador:**
    Abra [http://localhost:5173](http://localhost:5173).
@@ -161,12 +168,12 @@ Para executar o projeto localmente, certifique-se de possuir:
 
 ## Scripts Disponíveis
 
-| Comando | Descrição |
-|---|---|
-| `pnpm dev` | Inicia o servidor de desenvolvimento do Vite com HMR. |
-| `pnpm build` | Realiza a checagem de tipos (`tsc -b`) e compila para produção em `dist/`. |
-| `pnpm preview` | Inicia um servidor HTTP local para inspeção do pacote de produção. |
-| `pnpm lint` | Executa a verificação estática de código com o Oxlint. |
+| Comando        | Descrição                                                                  |
+| -------------- | -------------------------------------------------------------------------- |
+| `pnpm dev`     | Inicia o servidor de desenvolvimento do Vite com HMR.                      |
+| `pnpm build`   | Realiza a checagem de tipos (`tsc -b`) e compila para produção em `dist/`. |
+| `pnpm preview` | Inicia um servidor HTTP local para inspeção do pacote de produção.         |
+| `pnpm lint`    | Executa a verificação estática de código com o Oxlint.                     |
 
 ---
 
