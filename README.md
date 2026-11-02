@@ -1,116 +1,188 @@
 # Route Board — Dashboard de Rotas
 
-Painel interativo e laboratório prático focado na exploração de padrões modernos de navegação com **React Router**, **TypeScript** e **Tailwind CSS**. A aplicação explora conceitos de rotas dinâmicas com parâmetros de URL, layouts compartilhados, rotas aninhadas, proteção de rotas com autenticação simulada e tratamento resiliente de páginas e itens não encontrados.
+Painel interativo e laboratório prático focado na exploração de padrões modernos de navegação com **React Router 8**, **TypeScript** e **Tailwind CSS v4**, contemplando rotas dinâmicas, layouts compartilhados, rotas protegidas e tratamento resiliente de páginas não encontradas.
 
-## Funcionalidades
+---
 
-- **Dashboard Principal (`/dashboard`)**: Visão consolidada com catálogo de cursos disponíveis, indicadores de progresso individual e grade de horários síncronos.
-- **Página de Detalhes Dinâmica (`/courses/:id`)**: Rota baseada em parâmetros de URL (`useParams`) com apresentação completa do curso, ementa, dados do instrutor, aulas agendadas e métricas de carga horária.
-- **Tratamento de Item Inexistente**: Detecção automática de IDs não cadastrados na rota de detalhes, exibindo estado amigável sem quebrar o fluxo da aplicação.
-- **Autenticação Simulada (`/login`)**: Formulário de acesso com simulação de latência de rede, validações e opção "Lembrar de mim", persistindo a sessão via `localStorage` ou `sessionStorage`.
-- **Rotas Protegidas (`ProtectedRoute`)**: Barreira de autenticação que intercepta acessos não autorizados e preserva a rota original (`location.state.from`) para redirecionamento inteligente pós-login.
-- **Layout Compartilhado (`RootLayout`)**: Estrutura unificada com cabeçalho fixo, indicador de rota ativa, dados da conta do usuário e `<Outlet />` para renderização das telas filhas.
-- **Página 404 Customizada (`NotFound`)**: Captura global de rotas inexistentes (`*`) com direcionamento rápido de volta ao painel.
-- **Design System Consistente**: Interface construída com paleta brutalista suave, sombras duras coloridas e botões com área de clique confortável e acessível.
+[![React 19](https://img.shields.io/badge/React-19.2-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev/)
+[![React Router 8](https://img.shields.io/badge/React_Router-8.4-CA4245?style=flat&logo=reactrouter&logoColor=white)](https://reactrouter.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat&logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.3-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Oxlint](https://img.shields.io/badge/Linter-Oxlint-orange?style=flat&logo=oxc&logoColor=white)](https://oxc.rs/)
+[![pnpm](https://img.shields.io/badge/Package_Manager-pnpm-F69220?style=flat&logo=pnpm&logoColor=white)](https://pnpm.io/)
+[![Licença Privada](https://img.shields.io/badge/License-Privado-lightgrey?style=flat)](#licença)
+
+---
+
+## Sumário
+
+- [Visão Geral](#visão-geral)
+- [Funcionalidades Principais](#funcionalidades-principais)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Mapa de Rotas](#mapa-de-rotas)
+- [Autenticação e Credenciais de Teste](#autenticação-e-credenciais-de-teste)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação e Execução](#instalação-e-execução)
+- [Scripts Disponíveis](#scripts-disponíveis)
+- [Padrões de Versionamento](#padrões-de-versionamento)
+- [Licença](#licença)
+
+---
+
+## Visão Geral
+
+O **Route Board** foi desenvolvido com a finalidade de atuar como laboratório arquitetural para o **React Router 8**. Ele consolida boas práticas na construção de sistemas corporativos baseados em painéis de controle (*dashboards*), demonstrando na prática:
+
+- Como estruturar fluxos de autenticação desacoplados com preservação de estado da rota original.
+- Como consumir parâmetros de URL dinâmicos (`/courses/:id`) mantendo resiliência contra IDs inexistentes.
+- Como aplicar layouts aninhados com componentes `<Outlet />` e navegação declarativa.
+- Adoção de uma identidade visual brutalista moderna orientada a blocos coloridos e sombras sólidas com Tailwind CSS v4.
+
+---
+
+## Funcionalidades Principais
+
+- **Dashboard Principal (`/dashboard`):** Visão centralizada com catálogo de cursos disponíveis, acompanhamento de progresso de aprendizado e grade cronológica de aulas.
+- **Página de Detalhes Dinâmica (`/courses/:id`):** Resolução de dados via parâmetros de URL utilizando o hook `useParams`, apresentando ementa completa, dados do instrutor e métricas da grade horária.
+- **Tratamento de Item Inexistente:** Interceptação automática de identificadores inválidos no catálogo, exibindo mensagens amigáveis e ações de retorno sem quebrar o ciclo da aplicação.
+- **Autenticação Simulada (`/login`):** Tela de login com emulação de latência de rede, validações de formato e opção "Lembrar de mim" (persistência alternada entre `localStorage` e `sessionStorage`).
+- **Barreira de Rotas Protegidas (`ProtectedRoute`):** Controle de acesso que bloqueia usuários desautenticados e grava a rota requisitada (`location.state.from`) para redirecionamento imediato após o login.
+- **Layout Compartilhado (`RootLayout`):** Barra superior unificada com indicador de rota ativa, dados de perfil e container renderizador `<Outlet />`.
+- **Tratamento Global de Erro 404 (`NotFound`):** Rota curinga (`*`) para interceptar qualquer endereço não mapeado com navegação simplificada de retorno.
+
+---
 
 ## Tecnologias Utilizadas
 
-- **Frontend:**
-    - [React 19](https://react.dev/)
-    - [React Router 8](https://reactrouter.com/) para roteamento declarativo e rotas dinâmicas
-    - [TypeScript](https://www.typescriptlang.org/) para tipagem estática ponta a ponta
-    - [Tailwind CSS v4](https://tailwindcss.com/) para estilização utilitária moderna
-    - [Lucide React](https://lucide.dev/) para iconografia da interface
-- **Ferramentas & Build:**
-    - [Vite 8](https://vite.dev/) como empacotador e servidor de desenvolvimento
-    - [pnpm](https://pnpm.io/) como gerenciador de pacotes
-    - [Oxlint](https://oxc.rs/) para análise estática e padronização de código em alta velocidade
+### Frontend & Roteamento
+- **[React 19](https://react.dev/):** Biblioteca para interfaces com compilação pelo React Compiler.
+- **[React Router 8](https://reactrouter.com/):** Sistema declarativo e robusto de roteamento dinâmico.
+- **[TypeScript](https://www.typescriptlang.org/):** Tipagem estática fim a fim em todas as camadas da aplicação.
+- **[Tailwind CSS v4](https://tailwindcss.com/):** Novo motor atômico de estilos integrado diretamente ao Vite (`@tailwindcss/vite`).
+- **[Lucide React](https://lucide.dev/):** Iconografia consistente para controles e navegação.
+
+### Tooling & Build
+- **[Vite 8](https://vite.dev/):** Servidor de desenvolvimento ultrarrápido e empacotamento para produção.
+- **[pnpm](https://pnpm.io/):** Gerenciador de dependências eficiente e determinístico.
+- **[Oxlint](https://oxc.rs/):** Linter de alta performance focado na padronização e sanidade do código.
+
+---
 
 ## Estrutura do Projeto
 
-A organização de diretórios dentro de `src/` segue uma divisão clara por responsabilidades:
+```text
+route-board/
+├── public/                 # Recursos públicos e manifestos
+├── src/
+│   ├── components/         # Componentes visuais
+│   │   ├── ui/             # Primitivas de interface (Button, Input, UserAvatar)
+│   │   ├── CourseCard.tsx  # Cartão individual do catálogo
+│   │   ├── Header.tsx      # Barra de navegação unificada
+│   │   └── ProtectedRoute.tsx # Guard de proteção de rotas
+│   ├── context/            # Contexto e provedor de autenticação (AuthContext)
+│   ├── data/               # Base de dados em memória simulada (courses.ts)
+│   ├── hooks/              # Hooks customizados da aplicação (useAuth.ts)
+│   ├── layouts/            # Componentes estruturais e layouts base (RootLayout.tsx)
+│   ├── pages/              # Telas da aplicação (Dashboard, ItemDetails, Login, NotFound)
+│   ├── styles/             # Folha de estilos globais com diretivas do Tailwind v4
+│   ├── types/              # Definições de interfaces do domínio
+│   ├── utils/              # Formatadores de moeda, porcentagem e datas
+│   ├── App.tsx             # Definição declarativa da árvore de rotas
+│   └── main.tsx            # Ponto de entrada da aplicação
+├── .oxlintrc.json          # Configuração de regras do Oxlint
+├── package.json            # Manifesto de dependências e scripts pnpm
+├── pnpm-lock.yaml          # Bloqueio de versões do pnpm
+├── tsconfig.json           # Configuração do compilador TypeScript
+└── vite.config.ts          # Configuração do Vite e Tailwind CSS v4
+```
 
-- `/components`: Componentes visuais do dashboard (`CourseCard`, `CourseProgressList`, `Header`, `ProtectedRoute`, `TimetableList`) e primitivas de interface em `/ui` (`Button`, `Input`, `PasswordInput`, `UserAvatar`).
-- `/context`: Contexto e provedor de autenticação (`AuthContext` e `AuthProvider`).
-- `/data`: Base de dados estática simulada para cursos, horários e temas visuais (`courses.ts`).
-- `/hooks`: Hooks customizados para consumo de contextos e utilidades (`useAuth.ts`).
-- `/layouts`: Componentes de estrutura compartilhada (`RootLayout.tsx`).
-- `/pages`: Telas e visões da aplicação (`Dashboard`, `ItemDetails`, `Login`, `NotFound`, `Placeholder`).
-- `/styles`: Folha de estilos globais e configurações de tema do Tailwind CSS (`globals.css`).
-- `/types`: Definições de interfaces e tipos TypeScript de todo o domínio da aplicação.
-- `/utils`: Formatadores de data, hora, moeda e porcentagem.
+---
 
 ## Mapa de Rotas
 
-| Rota           |       Tipo       | Proteção |           Componente           | Descrição                                                       |
-| :------------- | :--------------: | :------: | :----------------------------: | :-------------------------------------------------------------- |
-| `/login`       |     Estática     | Pública  |            `Login`             | Tela de autenticação simulada com suporte a "Lembrar de mim".   |
-| `/`            | Redirecionamento | Privada  | `<Navigate to="/dashboard" />` | Redireciona a raiz automaticamente para o painel principal.     |
-| `/dashboard`   |     Estática     | Privada  |          `Dashboard`           | Painel central com lista de cursos, grade de aulas e progresso. |
-| `/courses/:id` |     Dinâmica     | Privada  |         `ItemDetails`          | Detalhes do curso consumindo o parâmetro `:id` via `useParams`. |
-| `/courses`     |     Estática     | Privada  |         `Placeholder`          | Seção de catálogo complementar em desenvolvimento.              |
-| `/calendar`    |     Estática     | Privada  |         `Placeholder`          | Seção de calendário complementar em desenvolvimento.            |
-| `/community`   |     Estática     | Privada  |         `Placeholder`          | Espaço de comunidade complementar em desenvolvimento.           |
-| `*`            |     Curinga      | Pública  |           `NotFound`           | Página 404 para qualquer URL não mapeada.                       |
+| Rota | Tipo | Acesso | Componente | Descrição |
+|---|:---:|:---:|---|---|
+| `/login` | Estática | Público | `Login` | Autenticação com suporte a "Lembrar de mim". |
+| `/` | Redirecionamento | Privado | `<Navigate to="/dashboard" />` | Redirecionamento automático da raiz para o painel. |
+| `/dashboard` | Estática | Privado | `Dashboard` | Painel central com lista de cursos e horários. |
+| `/courses/:id` | Dinâmica | Privado | `ItemDetails` | Detalhes do curso lidos via `useParams`. |
+| `/courses` | Estática | Privado | `Placeholder` | Seção em desenvolvimento do catálogo geral. |
+| `/calendar` | Estática | Privado | `Placeholder` | Seção em desenvolvimento de calendário. |
+| `/community` | Estática | Privado | `Placeholder` | Seção em desenvolvimento da comunidade. |
+| `*` | Curinga | Público | `NotFound` | Tela amigável de erro 404 para rotas não mapeadas. |
+
+---
 
 ## Autenticação e Credenciais de Teste
 
-A aplicação simula uma sessão de usuário persistente com os seguintes dados:
+A aplicação trabalha com autenticação simulada para fins didáticos:
 
-- **E-mail sugerido:** `john.doe@routeboard.dev` (ou qualquer e-mail no formato correto)
-- **Senha:** Qualquer sequência de caracteres
-- **Lembrar de mim:** Quando ativado, salva a sessão no `localStorage`; desativado, mantém apenas no `sessionStorage`.
+- **E-mail sugerido:** `john.doe@routeboard.dev` (ou qualquer formato de e-mail válido).
+- **Senha:** Qualquer combinação de caracteres.
+- **Lembrar de mim:** Ativado armazena a sessão no `localStorage`; desativado armazena temporariamente no `sessionStorage`.
+
+---
 
 ## Pré-requisitos
 
-Antes de iniciar, você precisará ter instalado em sua máquina:
+Para executar o projeto localmente, certifique-se de possuir:
 
-- [Node.js](https://nodejs.org/en/) (recomendado versão 20 ou superior)
-- Gerenciador de pacotes [pnpm](https://pnpm.io/) (versão 10 ou superior recomendada) ou gerenciadores equivalentes (`npm`, `yarn`)
+- [Node.js](https://nodejs.org/) (versão 20.0.0 ou superior recomendada)
+- [pnpm](https://pnpm.io/) (versão 10 ou superior recomendada)
 
-## Instalação e Configuração
+---
 
-1. Clone o repositório:
+## Instalação e Execução
 
-    ```bash
-    git clone https://github.com/Jhnvida/route-board.git
-    ```
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/Jhnvida/route-board.git
+   cd route-board
+   ```
 
-2. Acesse a pasta do projeto:
+2. **Instale as dependências:**
+   ```bash
+   pnpm install
+   ```
 
-    ```bash
-    cd route-board
-    ```
+3. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   pnpm dev
+   ```
 
-3. Instale as dependências:
+4. **Acesse no navegador:**
+   Abra [http://localhost:5173](http://localhost:5173).
 
-    ```bash
-    pnpm install
-    ```
+> **Nota:** Este projeto opera inteiramente em memória e armazenamento do navegador, não necessitando de arquivos `.env` ou chaves de API externas.
 
-> **Nota:** Este projeto não requer chaves de API externas ou variáveis de ambiente para execução local.
+---
 
-## Como Executar
+## Scripts Disponíveis
 
-Para iniciar o servidor de desenvolvimento, execute o comando:
+| Comando | Descrição |
+|---|---|
+| `pnpm dev` | Inicia o servidor de desenvolvimento do Vite com HMR. |
+| `pnpm build` | Realiza a checagem de tipos (`tsc -b`) e compila para produção em `dist/`. |
+| `pnpm preview` | Inicia um servidor HTTP local para inspeção do pacote de produção. |
+| `pnpm lint` | Executa a verificação estática de código com o Oxlint. |
 
-```bash
-pnpm dev
-```
+---
 
-Acesse a aplicação no seu navegador padrão em `http://localhost:5173`.
+## Padrões de Versionamento
 
-### Outros Scripts Disponíveis
+Este repositório adota a especificação [Conventional Commits](https://www.conventionalcommits.org/pt-br/):
 
-- `pnpm build`: Cria a versão de produção otimizada com checagem de tipos (`tsc -b && vite build`).
-- `pnpm preview`: Inicializa um servidor local para visualizar o build de produção.
-- `pnpm lint`: Executa a verificação estática do código com o Oxlint.
+- `feat:` Novas rotas, páginas ou componentes visuais.
+- `fix:` Correções em navegação, redirecionamentos ou layout.
+- `docs:` Melhorias e atualizações na documentação técnica.
+- `style:` Ajustes nas paletas, sombras e formatação sem efeito comportamental.
+- `refactor:` Reorganização da arquitetura de rotas ou componentes.
+- `chore:` Atualizações nas ferramentas de desenvolvimento ou dependências.
 
-## Como Usar
+---
 
-- **Tela de Login (`/login`)**: Realize o acesso com qualquer credencial de teste para desbloquear as rotas privadas.
-- **Painel Geral (`/dashboard`)**: Explore os cursos disponíveis nos cards superiores, a grade de horários com instrutores e a listagem de progresso.
-- **Detalhes do Curso (`/courses/:id`)**: Clique em qualquer card de curso ou lição na grade para abrir a página detalhada daquele item, visualizando informações completas do curso.
-- **Tratamento de Item Inexistente (`/courses/id-invalido`)**: Digite uma URL com ID aleatório para visualizar o estado amigável de item não encontrado.
-- **Página 404 (`*`)**: Digite qualquer caminho desconhecido (ex.: `/rota-inexistente`) para testar a página de erro global.
-- **Logout**: Clique no ícone de saída no canto superior direito para limpar a sessão e retornar à tela de autenticação.
+## Licença
+
+Este projeto é de natureza estritamente pessoal e educacional. Não possui concessão de licença pública para fins comerciais. Todos os direitos reservados.
